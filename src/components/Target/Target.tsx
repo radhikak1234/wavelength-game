@@ -3,19 +3,21 @@ import styled from "styled-components";
 
 interface Props {
   position?: number;
-  spectrumEnd?: string;
+  show?: boolean;
 }
 
-export const Target = ({ position }: Props) => {
+export const Target = ({ show = true, position = 50 }: Props) => {
   return (
-    <Flex>
-      <TargetBar>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-        <div>3</div>
-        <div>2</div>
-      </TargetBar>
+    <Flex position={position}>
+      {show && (
+        <TargetBar>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>3</div>
+          <div>2</div>
+        </TargetBar>
+      )}
     </Flex>
   );
 };
@@ -41,11 +43,13 @@ const TargetBar = styled.div`
   justify-content: space-around;
   font-size: 20px;
   align-items: center;
-  right: 100px;
 `;
 
-const Flex = styled.div`
+const Flex = styled.div<{ position: number }>`
+  margin-top: 16px;
   display: flex;
   height: 50px;
-  width: 90%;
+  justify-content: center;
+  position: relative;
+  right: ${({ position }) => position * 0.74 - 38}%;
 `;

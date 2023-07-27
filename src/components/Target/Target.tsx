@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-
+import { Slide } from "@mui/material";
+import RedPointer from "../../assets/redpointer.png";
 interface Props {
   position?: number;
   show?: boolean;
 }
 
-export const Target = ({ show = true, position = 50 }: Props) => {
+export const Target = ({ show = false, position = 50 }: Props) => {
   return (
-    <Flex position={position}>
-      {show && (
+    <Slide timeout={3000} in={show} direction="left">
+      <Flex position={position}>
         <TargetBar>
           <div>2</div>
           <div>3</div>
@@ -17,13 +18,27 @@ export const Target = ({ show = true, position = 50 }: Props) => {
           <div>3</div>
           <div>2</div>
         </TargetBar>
-      )}
-    </Flex>
+        <RedPointerImage
+          alt="shuffle"
+          src={RedPointer}
+          width="25"
+          height="25"
+        />
+      </Flex>
+    </Slide>
   );
 };
+const RedPointerImage = styled.img`
+  position: absolute;
+  top: 52px;
+`;
 
 const TargetBar = styled.div`
-  width: 200px;
+  border: white;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+  width: 17%;
   height: 50px;
   background: linear-gradient(
     to right,
@@ -41,7 +56,7 @@ const TargetBar = styled.div`
   position: absolute;
   display: flex;
   justify-content: space-around;
-  font-size: 20px;
+  font-size: 16px;
   align-items: center;
 `;
 
@@ -51,5 +66,6 @@ const Flex = styled.div<{ position: number }>`
   height: 50px;
   justify-content: center;
   position: relative;
-  right: ${({ position }) => position * 0.74 - 38}%;
+  transition: left 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
+  left: ${({ position }) => position * 0.74 - 37}%;
 `;

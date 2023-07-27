@@ -960,3 +960,39 @@ export const spectrumCards = [
     left: "You want your parents to watch you do it",
   },
 ];
+
+export const shuffle = (
+  array: {
+    right: string;
+    left: string;
+  }[]
+) => {
+  var i = array.length;
+  while (i--) {
+    return array.splice(Math.floor(Math.random() * (i + 1)), 1)[0];
+  }
+};
+
+export function shuffleCards(
+  array: {
+    right: string;
+    left: string;
+  }[]
+) {
+  var copy = array.slice(0);
+  return function () {
+    if (copy.length < 1) {
+      copy = array.slice(0);
+    }
+    var index = Math.floor(Math.random() * copy.length);
+    var item = copy[index];
+    copy.splice(index, 1);
+    return item;
+  };
+}
+
+export const shuffledCards = shuffleCards(spectrumCards);
+// chooser(); // => "Bar"
+// chooser(); // => "Foo"
+// chooser(); // => "Gah"
+// chooser(); // => "Foo" -- only repeats once all items are exhausted.

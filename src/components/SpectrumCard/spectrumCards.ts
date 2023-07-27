@@ -992,7 +992,3 @@ export function shuffleCards(
 }
 
 export const shuffledCards = shuffleCards(spectrumCards);
-// chooser(); // => "Bar"
-// chooser(); // => "Foo"
-// chooser(); // => "Gah"
-// chooser(); // => "Foo" -- only repeats once all items are exhausted.

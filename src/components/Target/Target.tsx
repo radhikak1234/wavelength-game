@@ -9,7 +9,7 @@ interface Props {
 
 export const Target = ({ show = false, position = 50 }: Props) => {
   return (
-    <Slide timeout={3000} in={show} direction="left">
+    <Slide timeout={1000} appear={true} in={show} direction="left">
       <Flex position={position}>
         <TargetBar>
           <div>2</div>
@@ -38,7 +38,7 @@ const TargetBar = styled.div`
   border-width: 1px;
   border-style: solid;
   border-radius: 8px;
-  width: 17%;
+  width: 18%;
   height: 50px;
   background: linear-gradient(
     to right,
@@ -60,12 +60,13 @@ const TargetBar = styled.div`
   align-items: center;
 `;
 
-const Flex = styled.div<{ position: number }>`
+const Flex = styled.div<{ position: number; hide?: boolean }>`
   margin-top: 16px;
   display: flex;
   height: 50px;
   justify-content: center;
   position: relative;
+  top: -12px;
   transition: left 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) !important;
   left: ${({ position }) => position * 0.74 - 37}%;
 `;

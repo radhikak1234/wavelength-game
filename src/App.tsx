@@ -3,6 +3,7 @@ import "./App.css";
 import { Wavelength } from "./Wavelength";
 
 function App() {
+
   return <Wavelength />;
 }
 

@@ -44,7 +44,7 @@ export const WavelengthBar = ({
                 defaultValue={50}
                 aria-label="Default"
                 valueLabelDisplay="auto"
-                valueLabelFormat={(x) => clue || x}
+                valueLabelFormat={(x) => `${clue}  (${x})`}
               />
             </ThemeProvider>
           </SliderDiv>

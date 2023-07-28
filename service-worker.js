@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/wavelength-game/precache-manifest.541041d15d5f5c1ca7371eaaa68c699a.js"
+  "/wavelength-game/precache-manifest.874de6ba81d94eb1cb4d34ca3c7f4394.js"
 );
 
 workbox.clientsClaim();

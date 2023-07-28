@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "21593e074b94bab8ac0c",
+    "revision": "da1b481edbf9bc972634",
     "url": "/wavelength-game/static/css/main.525fdcf6.chunk.css"
   },
   {
-    "revision": "21593e074b94bab8ac0c",
-    "url": "/wavelength-game/static/js/main.1c207ff1.chunk.js"
+    "revision": "da1b481edbf9bc972634",
+    "url": "/wavelength-game/static/js/main.a1599210.chunk.js"
   },
   {
-    "revision": "9b579097b285a752a455",
-    "url": "/wavelength-game/static/js/runtime~main.8d650d12.js"
+    "revision": "d740156408e92b326a3d",
+    "url": "/wavelength-game/static/js/runtime~main.a24dc772.js"
   },
   {
-    "revision": "4115ae12ad75ac1cd9eb",
-    "url": "/wavelength-game/static/js/2.48bfc66a.chunk.js"
+    "revision": "a614327a8c0c5d1946fa",
+    "url": "/wavelength-game/static/js/2.7098c4f7.chunk.js"
   },
   {
-    "revision": "f499b7737514e727b304",
-    "url": "/wavelength-game/static/js/3.58bb4b7d.chunk.js"
+    "revision": "e897de3d059808493f9f",
+    "url": "/wavelength-game/static/js/3.5aaf3fca.chunk.js"
   },
   {
     "revision": "83558054993df34a2ec6b3f819a7e918",
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/wavelength-game/static/media/hide.e68fd803.png"
   },
   {
-    "revision": "547210dd9b066f46bb3f127b3585560a",
+    "revision": "fcaed0023c18794278151a75ce4d3285",
     "url": "/wavelength-game/index.html"
   }
 ];

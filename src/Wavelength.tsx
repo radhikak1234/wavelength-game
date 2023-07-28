@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { WavelengthBar } from "./components/WavelengthBar/WavelengthBar";
 import { SpectrumCard } from "./components/SpectrumCard/SpectrumCard";
@@ -24,11 +24,19 @@ export const Wavelength = () => {
     right: string;
     left: string;
   }>(shuffledCards());
+  const section4 = useRef(null);
 
   const transitionSection = (start: number, end: number) => {
     start && setTimeout(() => setSection(start), 0);
     end && setTimeout(() => setSection(end), 1200);
   };
+
+  useEffect(() => {
+    const element = document.getElementById(`step${currentSection}`);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentSection]);
 
   const shufflePosition = () => {
     setShowTarget(true);
@@ -46,7 +54,7 @@ export const Wavelength = () => {
   };
 
   const toggleTarget = () => {
-    if (showTarget === true) {
+    if (showTarget) {
       setShowSlider(true);
     }
     setShowTarget((prev) => !prev);
@@ -76,9 +84,9 @@ export const Wavelength = () => {
     let points = 0;
     let opponentPoints = 0;
 
-    if (distance <= 4) {
+    if (distance <= 2) {
       points = 4;
-    } else if (distance <= 8) {
+    } else if (distance <= 7) {
       points = 3;
     } else if (distance <= 12) {
       points = 2;
@@ -92,7 +100,6 @@ export const Wavelength = () => {
       `Target revealed! You scored ${points} points. Your opponent scored ${opponentPoints} points!`
     );
   };
-  console.log({ currentSection });
 
   return (
     <div className="App">
@@ -125,7 +132,7 @@ export const Wavelength = () => {
 
         {currentSection !== 4 && (
           <>
-            <Target show={showTarget} position={position} />
+            <Target reveal={showPoints} show={showTarget} position={position} />
             <WavelengthBar
               clue={clue}
               spectrumLeft={currentCard.left}
@@ -136,7 +143,7 @@ export const Wavelength = () => {
           </>
         )}
       </Section>
-      <Section selected={currentSection === 3} id="step3">
+      <Section selected={currentSection === 3} id="step3" ref={section4}>
         <Step> {"Submit a clue to hide the target"} </Step>
         <Flex>
           <Clue
@@ -158,16 +165,6 @@ export const Wavelength = () => {
       </Section>
       {showSlider && (
         <Section selected={currentSection === 4} id="step4">
-          <Step>{"Your team can now make their guess using the slider"}</Step>
-
-          <Target show={showTarget} position={position} />
-          <WavelengthBar
-            clue={clue}
-            spectrumLeft={currentCard.left}
-            spectrumRight={currentCard.right}
-            setGuess={setGuess}
-            showSlider={showSlider}
-          />
           <StyledButton onClick={toggleTarget}>
             <img
               title={showTarget ? "Hide Target" : "Show Target"}
@@ -177,10 +174,24 @@ export const Wavelength = () => {
               height="45"
             />
           </StyledButton>
-          <Step> Teammate's guess: {guess}/100 </Step>
-          <StyledButton onClick={submitGuess}>
-            <img alt="Submit guess" src={Check} width="45" height="45" />
-          </StyledButton>
+          <Step>{"Your team can now make their guess using the slider"}</Step>
+
+          <Target reveal={true} show={showTarget} position={position} />
+          <WavelengthBar
+            clue={clue}
+            spectrumLeft={currentCard.left}
+            spectrumRight={currentCard.right}
+            setGuess={setGuess}
+            showSlider={showSlider}
+          />
+
+          <Flex>
+            {" "}
+            <Step> Teammate's guess: {guess}/100 </Step>
+            <StyledButton onClick={submitGuess}>
+              <img alt="Submit guess" src={Check} width="45" height="45" />
+            </StyledButton>
+          </Flex>
         </Section>
       )}
       <Section

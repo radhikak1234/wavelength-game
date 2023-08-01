@@ -27,43 +27,49 @@ export const WavelengthBar = ({
   showSlider = false,
 }: Props) => {
   return (
-    <>
+    <BarConceptContainer>
       <Flex>
         <Bar>
-          <Concept>{spectrumLeft}</Concept>
-          <Concept>{spectrumRight}</Concept>
+          {showSlider && (
+            <SliderContainer>
+              <SliderDiv>
+                <ThemeProvider theme={theme}>
+                  <Slider
+                    onChange={(e, val) => setGuess(val as number)}
+                    color="secondary"
+                    defaultValue={50}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                    valueLabelFormat={(x) => `${clue}  (${x})`}
+                  />
+                </ThemeProvider>
+              </SliderDiv>
+            </SliderContainer>
+          )}
         </Bar>
       </Flex>
-      {showSlider && (
-        <SliderContainer>
-          <SliderDiv>
-            <ThemeProvider theme={theme}>
-              <Slider
-                onChange={(e, val) => setGuess(val as number)}
-                color="secondary"
-                defaultValue={50}
-                aria-label="Default"
-                valueLabelDisplay="auto"
-                valueLabelFormat={(x) => `${clue}  (${x})`}
-              />
-            </ThemeProvider>
-          </SliderDiv>
-        </SliderContainer>
-      )}
-    </>
+      <ConceptContainer>
+        <Concept>&larr; {spectrumLeft}</Concept>
+        <Concept>{spectrumRight} &rarr;</Concept>
+      </ConceptContainer>
+    </BarConceptContainer>
   );
 };
 
 const Concept = styled.div`
-  padding: 16px;
-  font-size: 18px;
+  font-size: 24px;
+`;
+
+const BarConceptContainer = styled.div`
+  padding: 0 12%;
+  justify-content: center;
 `;
 
 const Bar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 76%;
+  width: 100%;
   background: linear-gradient(
     to right,
     #68ced1 0%,
@@ -82,6 +88,12 @@ const Flex = styled.div`
   justify-content: space-evenly;
 `;
 
+const ConceptContainer = styled.div`
+  margin: 16px 0;
+  display: flex;
+  justify-content: space-between;
+`;
+
 const SliderContainer = styled.div`
   width: 100%;
   display: flex;
@@ -89,9 +101,9 @@ const SliderContainer = styled.div`
 `;
 
 const SliderDiv = styled.div`
-  width: 76%;
+  width: 100%;
   display: flex;
   justify-content: center;
   position: relative;
-  top: -82px;
+  top: -26px;
 `;

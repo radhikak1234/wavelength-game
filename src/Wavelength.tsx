@@ -9,6 +9,7 @@ import Show from "./assets/show.png";
 import Hide from "./assets/hide.png";
 import Check from "./assets/check.png";
 import styled from "styled-components";
+import { Header } from "./components/Header/Header";
 
 export const Wavelength = () => {
   const [position, setPosition] = useState(50);
@@ -45,12 +46,23 @@ export const Wavelength = () => {
   };
   const drawCard = () => {
     setCurrentCard(shuffledCards());
+    resetBoard();
+    transitionSection(1, 2);
+  };
+
+  const startNextRound = () => {
+    resetBoard();
+    setSection(1);
+    window.scrollTo(0, -80);
+  };
+
+  const resetBoard = () => {
     setPosition(50);
     setClue("");
     setShowTarget(true);
     setShowPoints(false);
     setShowSlider(false);
-    transitionSection(1, 2);
+    setGuess(50);
   };
 
   const toggleTarget = () => {
@@ -103,9 +115,7 @@ export const Wavelength = () => {
 
   return (
     <div className="App">
-      <Title className="App-header">
-        {"Wavelength: a game of provoking thoughts"}{" "}
-      </Title>
+      <Header></Header>
       <Section selected={currentSection === 1} id="step1">
         <Flex>
           <Step> {"Draw a spectrum card"} </Step>
@@ -175,6 +185,7 @@ export const Wavelength = () => {
             />
           </StyledButton>
           <Step>{"Your team can now make their guess using the slider"}</Step>
+          <Title> {clue} </Title>
 
           <Target reveal={true} show={showTarget} position={position} />
           <WavelengthBar
@@ -186,7 +197,6 @@ export const Wavelength = () => {
           />
 
           <Flex>
-            {" "}
             <Step> Teammate's guess: {guess}/100 </Step>
             <StyledButton onClick={submitGuess}>
               <img alt="Submit guess" src={Check} width="45" height="45" />
@@ -195,7 +205,7 @@ export const Wavelength = () => {
         </Section>
       )}
       <Section
-        hide={currentSection < 5}
+        hide={currentSection !== 5}
         selected={currentSection === 5}
         id="step5"
       >
@@ -216,7 +226,9 @@ export const Wavelength = () => {
           <Step>
             {message}
             <Step> Correct answer: {position}/100 </Step>
+            <Step> Teammate's guess: {guess}/100 </Step>
           </Step>
+          <StyledButton onClick={startNextRound}>Next Round</StyledButton>
         </Section>
       )}
     </div>
@@ -225,13 +237,15 @@ export const Wavelength = () => {
 
 const Title = styled.div`
   padding: 25px;
-  background: #9b3797;
+  background: #5d6474;
 `;
 
 const Section = styled.section<{ selected?: boolean; hide?: boolean }>`
   padding: 32px 0;
   background: ${({ selected }) => selected && `#454953`};
   display: ${({ hide }) => hide && `none`};
+  margin-top: 64px;
+  scroll-margin-top: 82px;
 `;
 
 const Step = styled.div`
@@ -267,7 +281,7 @@ const StyledButton = styled.button`
   text-align: center;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   &:hover {
-    background-color: #68ced1;
+    background-color: #fafafa;
   }
   &:disabled {
     background-color: #cbcbcb;

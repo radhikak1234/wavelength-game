@@ -13,6 +13,8 @@ import { Header } from "./components/Header/Header";
 
 export const Wavelength = () => {
   const [position, setPosition] = useState(50);
+  const [score, setScore] = useState({ team1: 0, team2: 0 });
+  const [currentTeam, setCurrentTeam] = useState<1 | 2>(1);
 
   const [currentSection, setSection] = useState(1);
   const [showTarget, setShowTarget] = useState(true);
@@ -53,6 +55,7 @@ export const Wavelength = () => {
   const startNextRound = () => {
     resetBoard();
     setSection(1);
+    setCurrentTeam(currentTeam === 1 ? 2 : 1);
     window.scrollTo(0, -80);
   };
 
@@ -111,12 +114,16 @@ export const Wavelength = () => {
     setMessage(
       `Target revealed! You scored ${points} points. Your opponent scored ${opponentPoints} points!`
     );
+    setScore({
+      team1: score.team1 + points,
+      team2: score.team2 + opponentPoints,
+    });
   };
 
   return (
     <div className="App">
-      <Header></Header>
-      <Section selected={currentSection === 1} id="step1">
+      <Header currentTeam={currentTeam} score={score}></Header>
+      <Section topSection={true} selected={currentSection === 1} id="step1">
         <Flex>
           <Step> {"Draw a spectrum card"} </Step>
           <StyledButton onClick={drawCard}>
@@ -240,11 +247,16 @@ const Title = styled.div`
   background: #5d6474;
 `;
 
-const Section = styled.section<{ selected?: boolean; hide?: boolean }>`
+const Section = styled.section<{
+  topSection?: boolean;
+  selected?: boolean;
+  hide?: boolean;
+}>`
   padding: 32px 0;
   background: ${({ selected }) => selected && `#454953`};
   display: ${({ hide }) => hide && `none`};
-  margin-top: 64px;
+  /* margin-top: 116px; */
+  margin-top: ${({ topSection }) => (topSection ? `136px` : `64`)};
   scroll-margin-top: 82px;
 `;
 

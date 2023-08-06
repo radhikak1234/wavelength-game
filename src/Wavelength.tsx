@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, KeyboardEvent, useRef, useState } from "react";
 import "./App.css";
 import { WavelengthBar } from "./components/WavelengthBar/WavelengthBar";
 import { SpectrumCard } from "./components/SpectrumCard/SpectrumCard";
@@ -76,11 +76,9 @@ export const Wavelength = () => {
   };
 
   const submitClue = () => {
-    if (clue) {
-      setShowTarget(false);
-      setShowSlider(true);
-      setSection(4);
-    }
+    setShowTarget(false);
+    setShowSlider(true);
+    setSection(4);
   };
 
   const submitGuess = () => {
@@ -118,6 +116,11 @@ export const Wavelength = () => {
       team1: score.team1 + points,
       team2: score.team2 + opponentPoints,
     });
+  };
+  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      submitClue();
+    }
   };
 
   return (
@@ -160,10 +163,16 @@ export const Wavelength = () => {
           </>
         )}
       </Section>
-      <Section selected={currentSection === 3} id="step3" ref={section4}>
+      <Section
+        hide={currentSection > 3}
+        selected={currentSection === 3}
+        id="step3"
+        ref={section4}
+      >
         <Step> {"Submit a clue to hide the target"} </Step>
         <Flex>
           <Clue
+            onKeyDown={onKeyDown}
             onChange={(e) => {
               setClue(e.target.value);
               if (currentSection !== 3) {
@@ -175,7 +184,7 @@ export const Wavelength = () => {
             value={clue}
           ></Clue>
 
-          <StyledButton disabled={clue === ""} onClick={submitClue}>
+          <StyledButton onClick={submitClue}>
             <img alt="Submit" src={Check} width="45" height="45" />
           </StyledButton>
         </Flex>

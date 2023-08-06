@@ -30,11 +30,12 @@ const Card = styled.div`
     #d1d168 50%,
     #d1d168 100%
   );
-  width: 300px;
+  width: 20rem;
   height: 200px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  border-radius: 12px;
 `;
 
 const Flex = styled.div`

@@ -22,6 +22,7 @@ export const Wavelength = () => {
   const [guess, setGuess] = useState(50);
   const [clue, setClue] = useState("");
   const [showSlider, setShowSlider] = useState(false);
+  const [showShuffleButton, setShowShuffleButton] = useState(true);
   const [message, setMessage] = useState("");
   const [currentCard, setCurrentCard] = useState<{
     right: string;
@@ -43,6 +44,7 @@ export const Wavelength = () => {
 
   const shufflePosition = () => {
     setShowTarget(true);
+    setShowShuffleButton(false);
     setPosition(Math.floor(Math.random() * 100));
     transitionSection(2, 3);
   };
@@ -56,7 +58,7 @@ export const Wavelength = () => {
     resetBoard();
     setSection(1);
     setCurrentTeam(currentTeam === 1 ? 2 : 1);
-    window.scrollTo(0, -80);
+    window.scrollTo(0, 0);
   };
 
   const resetBoard = () => {
@@ -66,6 +68,7 @@ export const Wavelength = () => {
     setShowPoints(false);
     setShowSlider(false);
     setGuess(50);
+    setShowShuffleButton(true);
   };
 
   const toggleTarget = () => {
@@ -82,7 +85,8 @@ export const Wavelength = () => {
   };
 
   const submitGuess = () => {
-    transitionSection(4, 5);
+    // transitionSection(4, 5);
+    setSection(5);
   };
 
   const calculateScore = (side: number) => {
@@ -110,7 +114,7 @@ export const Wavelength = () => {
     }
 
     setMessage(
-      `Target revealed! You scored ${points} points. Your opponent scored ${opponentPoints} points!`
+      `Target revealed! Your team scored ${points} points. Your opponent's team scored ${opponentPoints} points.`
     );
     setScore({
       team1: score.team1 + points,
@@ -128,7 +132,7 @@ export const Wavelength = () => {
       <Header currentTeam={currentTeam} score={score}></Header>
       <Section topSection={true} selected={currentSection === 1} id="step1">
         <Flex>
-          <Step> {"Draw a spectrum card"} </Step>
+          <Step> {"Clue giver: Draw a spectrum card"} </Step>
           <StyledButton onClick={drawCard}>
             <img alt="draw a card" src={ShuffleIcon} width="45" height="45" />
           </StyledButton>
@@ -143,11 +147,24 @@ export const Wavelength = () => {
         selected={currentSection === 2}
         id="step2"
       >
+        <Step> {"Everyone except clue giver, please close your eyes"} </Step>
         <Flex>
-          <Step> {"Give me a target"} </Step>
-          <StyledButton onClick={shufflePosition}>
-            <img alt="shuffle" src={ShuffleIcon} width="45" height="45" />
-          </StyledButton>
+          <Step> {"Clue giver: Get a randomized target"} </Step>
+          {showShuffleButton ? (
+            <StyledButton onClick={shufflePosition}>
+              <img alt="shuffle" src={ShuffleIcon} width="45" height="45" />
+            </StyledButton>
+          ) : (
+            <StyledButton onClick={toggleTarget}>
+              <img
+                title={showTarget ? "Hide Target" : "Show Target"}
+                alt="show/hide target"
+                src={showTarget ? Hide : Show}
+                width="45"
+                height="45"
+              />
+            </StyledButton>
+          )}
         </Flex>
 
         {currentSection !== 4 && (
@@ -164,14 +181,14 @@ export const Wavelength = () => {
         )}
       </Section>
       <Section
-        hide={currentSection > 3}
+        hide={currentSection > 3 || showShuffleButton}
         selected={currentSection === 3}
         id="step3"
         ref={section4}
       >
-        <Step> {"Submit a clue to hide the target"} </Step>
+        <Step> {"Submit a clue that matches your target"} </Step>
         <Flex>
-          <Clue
+          <ClueInput
             onKeyDown={onKeyDown}
             onChange={(e) => {
               setClue(e.target.value);
@@ -182,27 +199,25 @@ export const Wavelength = () => {
             // disabled={!showTarget}
             placeholder="Enter clue..."
             value={clue}
-          ></Clue>
+          />
 
-          <StyledButton onClick={submitClue}>
-            <img alt="Submit" src={Check} width="45" height="45" />
-          </StyledButton>
+          {currentSection === 3 && (
+            <StyledButton onClick={submitClue}>
+              <img alt="Submit" src={Check} width="45" height="45" />
+            </StyledButton>
+          )}
         </Flex>
       </Section>
       {showSlider && (
-        <Section selected={currentSection === 4} id="step4">
-          <StyledButton onClick={toggleTarget}>
-            <img
-              title={showTarget ? "Hide Target" : "Show Target"}
-              alt="show/hide target"
-              src={showTarget ? Hide : Show}
-              width="45"
-              height="45"
-            />
-          </StyledButton>
-          <Step>{"Your team can now make their guess using the slider"}</Step>
-          <Title> {clue} </Title>
-
+        <Section
+          hide={currentSection < 4}
+          selected={currentSection === 4 || currentSection === 6}
+          id="step4"
+        >
+          {currentSection === 4 && (
+            <Step>{"Your team can now make their guess using the slider"}</Step>
+          )}
+          {clue && <Clue> {clue} </Clue>}
           <Target reveal={true} show={showTarget} position={position} />
           <WavelengthBar
             clue={clue}
@@ -210,13 +225,17 @@ export const Wavelength = () => {
             spectrumRight={currentCard.right}
             setGuess={setGuess}
             showSlider={showSlider}
+            disableSlider={currentSection > 4}
           />
 
           <Flex>
             <Step> Teammate's guess: {guess}/100 </Step>
-            <StyledButton onClick={submitGuess}>
-              <img alt="Submit guess" src={Check} width="45" height="45" />
-            </StyledButton>
+            {showPoints && <Step> Correct answer: {position}/100 </Step>}
+            {currentSection === 4 && (
+              <StyledButton onClick={submitGuess}>
+                <img alt="Submit guess" src={Check} width="45" height="45" />
+              </StyledButton>
+            )}
           </Flex>
         </Section>
       )}
@@ -230,19 +249,18 @@ export const Wavelength = () => {
             "Your opponent can now guess either left or right of the guess to earn points"
           }
         </Step>
-        <StyledButton onClick={() => calculateScore(-1)}>
-          Less than {guess}
-        </StyledButton>
-        <StyledButton onClick={() => calculateScore(1)}>
-          More than {guess}
-        </StyledButton>
+        <Flex>
+          <StyledButton onClick={() => calculateScore(-1)}>&larr;</StyledButton>
+          {guess}
+          <StyledButton onClick={() => calculateScore(1)}>&rarr;</StyledButton>
+        </Flex>
       </Section>
       {showPoints && (
         <Section selected={currentSection === 6} id="step6">
           <Step>
             {message}
-            <Step> Correct answer: {position}/100 </Step>
-            <Step> Teammate's guess: {guess}/100 </Step>
+            <Step> Team 1 Total: {score.team1} </Step>
+            <Step> Team 2 Total: {score.team2} </Step>
           </Step>
           <StyledButton onClick={startNextRound}>Next Round</StyledButton>
         </Section>
@@ -251,9 +269,11 @@ export const Wavelength = () => {
   );
 };
 
-const Title = styled.div`
-  padding: 25px;
-  background: #5d6474;
+const Clue = styled.div`
+  padding: 24px;
+  border: #abe1bf 2px solid;
+  font-size: 32px;
+  margin: 12px;
 `;
 
 const Section = styled.section<{
@@ -264,9 +284,7 @@ const Section = styled.section<{
   padding: 32px 0;
   background: ${({ selected }) => selected && `#454953`};
   display: ${({ hide }) => hide && `none`};
-  /* margin-top: 116px; */
   margin-top: ${({ topSection }) => (topSection ? `136px` : `64`)};
-  scroll-margin-top: 82px;
 `;
 
 const Step = styled.div`
@@ -280,7 +298,7 @@ const Flex = styled.div`
   align-items: center;
 `;
 
-const Clue = styled.input`
+const ClueInput = styled.input`
   padding: 8px;
   font-size: 24px;
   text-align: center;
@@ -296,7 +314,7 @@ const StyledButton = styled.button`
   border: 0;
   border-radius: 0.5rem;
   color: #111827;
-  font-size: 0.875rem;
+  font-size: 3rem;
   font-weight: 600;
   line-height: 1.25rem;
   text-align: center;

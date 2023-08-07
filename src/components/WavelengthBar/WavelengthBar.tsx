@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Slider } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -10,6 +10,7 @@ interface Props {
   setGuess: (x: number) => void;
   clue: string;
   showSlider?: boolean;
+  disableSlider?: boolean;
 }
 
 const theme = createTheme({
@@ -25,6 +26,7 @@ export const WavelengthBar = ({
   setGuess,
   clue,
   showSlider = false,
+  disableSlider = false,
 }: Props) => {
   return (
     <BarConceptContainer>
@@ -35,6 +37,7 @@ export const WavelengthBar = ({
               <SliderDiv>
                 <ThemeProvider theme={theme}>
                   <Slider
+                    disabled={disableSlider}
                     onChange={(e, val) => setGuess(val as number)}
                     color="secondary"
                     defaultValue={50}
@@ -106,4 +109,7 @@ const SliderDiv = styled.div`
   justify-content: center;
   position: relative;
   top: -26px;
+  .MuiSlider-root.Mui-disabled {
+    color: #9a0b0b;
+  }
 `;

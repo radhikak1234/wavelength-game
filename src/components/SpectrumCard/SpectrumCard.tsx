@@ -23,6 +23,7 @@ const Concept = styled.div`
 `;
 
 const Card = styled.div`
+  color: black;
   background: linear-gradient(
     to right,
     #dda2e6 0%,

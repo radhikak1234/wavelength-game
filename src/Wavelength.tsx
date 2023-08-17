@@ -117,8 +117,8 @@ export const Wavelength = () => {
       `Target revealed! Your team scored ${points} points. Your opponent's team scored ${opponentPoints} points.`
     );
     setScore({
-      team1: score.team1 + points,
-      team2: score.team2 + opponentPoints,
+      team1: score.team1 + (currentTeam === 1 ? points : opponentPoints),
+      team2: score.team2 + (currentTeam === 2 ? points : opponentPoints),
     });
   };
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

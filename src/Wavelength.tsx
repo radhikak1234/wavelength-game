@@ -51,7 +51,6 @@ export const Wavelength = () => {
   const drawCard = () => {
     setCurrentCard(shuffledCards());
     resetBoard();
-    transitionSection(1, 2);
   };
 
   const startNextRound = () => {
@@ -148,8 +147,15 @@ export const Wavelength = () => {
         id="step2"
       >
         <Step> {"Everyone except clue giver, please close your eyes"} </Step>
+
         <Flex>
-          <Step> {"Clue giver: Get a randomized target"} </Step>
+          {showShuffleButton && (
+            <Step> {"Clue giver: Get a randomized target"} </Step>
+          )}
+          {!showShuffleButton && showTarget && (
+            <Step> {position + "/100"} </Step>
+          )}
+
           {showShuffleButton ? (
             <StyledButton onClick={shufflePosition}>
               <img alt="shuffle" src={ShuffleIcon} width="45" height="45" />
@@ -170,6 +176,7 @@ export const Wavelength = () => {
         {currentSection !== 4 && (
           <>
             <Target reveal={showPoints} show={showTarget} position={position} />
+
             <WavelengthBar
               clue={clue}
               spectrumLeft={currentCard.left}
@@ -201,11 +208,9 @@ export const Wavelength = () => {
             value={clue}
           />
 
-          {currentSection === 3 && (
-            <StyledButton onClick={submitClue}>
-              <img alt="Submit" src={Check} width="45" height="45" />
-            </StyledButton>
-          )}
+          <StyledButton onClick={submitClue}>
+            <img alt="Submit" src={Check} width="45" height="45" />
+          </StyledButton>
         </Flex>
       </Section>
       {showSlider && (
@@ -231,12 +236,12 @@ export const Wavelength = () => {
           <Flex>
             <Step> Teammate's guess: {guess}/100 </Step>
             {showPoints && <Step> Correct answer: {position}/100 </Step>}
-            {currentSection === 4 && (
-              <StyledButton onClick={submitGuess}>
-                <img alt="Submit guess" src={Check} width="45" height="45" />
-              </StyledButton>
-            )}
           </Flex>
+          {currentSection === 4 && (
+            <StyledButton onClick={submitGuess}>
+              <img alt="Submit guess" src={Check} width="45" height="45" />
+            </StyledButton>
+          )}
         </Section>
       )}
       <Section
@@ -302,8 +307,8 @@ const ClueInput = styled.input`
   padding: 8px;
   font-size: 24px;
   text-align: center;
-  width: 300px;
-  margin: 24px 8px;
+  width: 225px;
+  margin: 24px 16px;
 `;
 
 const StyledButton = styled.button`

@@ -1,7 +1,7 @@
 {
   "main.css": "/wavelength-game/static/css/main.525fdcf6.chunk.css",
-  "main.js": "/wavelength-game/static/js/main.ba9660ab.chunk.js",
-  "main.js.map": "/wavelength-game/static/js/main.ba9660ab.chunk.js.map",
+  "main.js": "/wavelength-game/static/js/main.e43bd2c9.chunk.js",
+  "main.js.map": "/wavelength-game/static/js/main.e43bd2c9.chunk.js.map",
   "runtime~main.js": "/wavelength-game/static/js/runtime~main.a24dc772.js",
   "runtime~main.js.map": "/wavelength-game/static/js/runtime~main.a24dc772.js.map",
   "static/js/2.c8eac745.chunk.js": "/wavelength-game/static/js/2.c8eac745.chunk.js",
@@ -9,7 +9,7 @@
   "static/js/3.5aaf3fca.chunk.js": "/wavelength-game/static/js/3.5aaf3fca.chunk.js",
   "static/js/3.5aaf3fca.chunk.js.map": "/wavelength-game/static/js/3.5aaf3fca.chunk.js.map",
   "index.html": "/wavelength-game/index.html",
-  "precache-manifest.d52165ded1fa3f82392618c2097ec25a.js": "/wavelength-game/precache-manifest.d52165ded1fa3f82392618c2097ec25a.js",
+  "precache-manifest.b08977fce32efefb450d7c28f2ffed3a.js": "/wavelength-game/precache-manifest.b08977fce32efefb450d7c28f2ffed3a.js",
   "service-worker.js": "/wavelength-game/service-worker.js",
   "static/css/main.525fdcf6.chunk.css.map": "/wavelength-game/static/css/main.525fdcf6.chunk.css.map",
   "static/media/hide.png": "/wavelength-game/static/media/hide.e68fd803.png",

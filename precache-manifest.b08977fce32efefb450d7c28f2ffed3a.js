@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "0431b76b60a39cd99554",
+    "revision": "46a9efe508978c8f99e2",
     "url": "/wavelength-game/static/css/main.525fdcf6.chunk.css"
   },
   {
-    "revision": "0431b76b60a39cd99554",
-    "url": "/wavelength-game/static/js/main.ba9660ab.chunk.js"
+    "revision": "46a9efe508978c8f99e2",
+    "url": "/wavelength-game/static/js/main.e43bd2c9.chunk.js"
   },
   {
     "revision": "d740156408e92b326a3d",
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/wavelength-game/static/media/hide.e68fd803.png"
   },
   {
-    "revision": "af34af8ab8f3857f4dc09320fbb8d10d",
+    "revision": "7c34a801ccb72459766acfbc049235ff",
     "url": "/wavelength-game/index.html"
   }
 ];

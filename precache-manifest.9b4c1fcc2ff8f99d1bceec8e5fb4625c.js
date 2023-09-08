@@ -12,8 +12,8 @@ self.__precacheManifest = [
     "url": "/wavelength-game/static/js/runtime~main.a24dc772.js"
   },
   {
-    "revision": "5293e73e2acf6039e8d0",
-    "url": "/wavelength-game/static/js/2.c8eac745.chunk.js"
+    "revision": "9f909159420605ee3aef",
+    "url": "/wavelength-game/static/js/2.8dae6e72.chunk.js"
   },
   {
     "revision": "e897de3d059808493f9f",
@@ -36,7 +36,7 @@ self.__precacheManifest = [
     "url": "/wavelength-game/static/media/hide.e68fd803.png"
   },
   {
-    "revision": "7c34a801ccb72459766acfbc049235ff",
+    "revision": "cff9f200cb919562e5232cbd68f2cb65",
     "url": "/wavelength-game/index.html"
   }
 ];

@@ -70,17 +70,18 @@ const BarConceptContainer = styled.div`
 
 const Bar = styled.div`
   display: flex;
+  border-radius: 18px;
   align-items: center;
   justify-content: space-between;
   width: 100%;
   background: linear-gradient(
     to right,
-    #68ced1 0%,
-    #68ced1 49.5%,
-    #a2e4e6 49.5%,
-    #a2e4e6 50.5%,
-    #68ced1 50.5%,
-    #68ced1 100%
+    #dda3e6 0%,
+    // #68ced1 49.5%,
+    // #a2e4e6 49.5%,
+    // #a2e4e6 50.5%,
+    // #68ced1 50.5%,
+    #d1d169 100%
   );
 `;
 

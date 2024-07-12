@@ -13,6 +13,7 @@ import { Header } from "./components/Header/Header";
 
 export const Wavelength = () => {
   const [position, setPosition] = useState(50);
+  const [teamNames, setTeamNames] = useState({ 1: "Team 1", 2: "Team 2" });
   const [score, setScore] = useState({ team1: 0, team2: 0 });
   const [currentTeam, setCurrentTeam] = useState<1 | 2>(1);
 
@@ -35,6 +36,9 @@ export const Wavelength = () => {
     end && setTimeout(() => setSection(end), 1200);
   };
 
+  const currentTeamName = currentTeam === 1 ? teamNames[1] : teamNames[2];
+  const currentOponentName = currentTeam === 1 ? teamNames[2] : teamNames[1];
+
   useEffect(() => {
     const element = document.getElementById(`step${currentSection}`);
     if (element) {
@@ -47,17 +51,21 @@ export const Wavelength = () => {
     setShowShuffleButton(false);
     setPosition(Math.floor(Math.random() * 100));
     transitionSection(2, 3);
+    setTimeout(() => {
+      if (showTarget) setShowTarget(false); // Hide the target after 5 seconds so everyone can open their eyes
+    }, 5000);
   };
+
   const drawCard = () => {
     setCurrentCard(shuffledCards());
     resetBoard();
   };
 
   const startNextRound = () => {
-    resetBoard();
     setSection(1);
     setCurrentTeam(currentTeam === 1 ? 2 : 1);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    drawCard();
   };
 
   const resetBoard = () => {
@@ -88,6 +96,7 @@ export const Wavelength = () => {
     setSection(5);
   };
 
+  console.log(currentSection);
   const calculateScore = (side: number) => {
     setSection(6);
     setShowPoints(true);
@@ -113,7 +122,7 @@ export const Wavelength = () => {
     }
 
     setMessage(
-      `Target revealed! Your team scored ${points} points. Your opponent's team scored ${opponentPoints} points.`
+      `Target revealed! ${currentTeamName} scored ${points} points. ${currentOponentName} scored ${opponentPoints} points.`
     );
     setScore({
       team1: score.team1 + (currentTeam === 1 ? points : opponentPoints),
@@ -128,11 +137,20 @@ export const Wavelength = () => {
 
   return (
     <div className="App">
-      <Header currentTeam={currentTeam} score={score}></Header>
+      <Header
+        teamNames={teamNames}
+        setTeamNames={setTeamNames}
+        currentTeam={currentTeam}
+        score={score}
+      ></Header>
       <Section topSection={true} selected={currentSection === 1} id="step1">
+        {currentSection === 6 && (
+          <StyledButton onClick={startNextRound}>Next Round</StyledButton>
+        )}
         <Flex>
           <Step> {"Clue giver: Draw a spectrum card"} </Step>
-          <StyledButton onClick={drawCard}>
+
+          <StyledButton disabled={currentSection !== 1} onClick={drawCard}>
             <img alt="draw a card" src={ShuffleIcon} width="45" height="45" />
           </StyledButton>
         </Flex>
@@ -146,7 +164,9 @@ export const Wavelength = () => {
         selected={currentSection === 2}
         id="step2"
       >
-        <Step> {"Everyone except clue giver, please close your eyes"} </Step>
+        <Step>
+          Everyone except clue giver, please close your eyes for 5 seconds
+        </Step>
 
         <Flex>
           {showShuffleButton && (
@@ -264,8 +284,13 @@ export const Wavelength = () => {
         <Section selected={currentSection === 6} id="step6">
           <Step>
             {message}
-            <Step> Team 1 Total: {score.team1} </Step>
-            <Step> Team 2 Total: {score.team2} </Step>
+            <Step>
+              {" "}
+              {currentTeamName}: {score.team1}
+            </Step>
+            <Step>
+              {currentOponentName}: {score.team2}
+            </Step>
           </Step>
           <StyledButton onClick={startNextRound}>Next Round</StyledButton>
         </Section>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import RedPointer from "../../assets/redpointer.png";
-import Check from "../../assets/check.png";
+import Edit from "../../assets/edit.png";
+import { Input } from "@mui/material";
 
 interface Props {
   currentTeam?: number;
@@ -16,7 +17,8 @@ export const Header = ({
   teamNames,
   setTeamNames,
 }: Props) => {
-  const [showTeamName, setShowTeamName] = useState(true);
+  const [isEditingTeam1, setIsEditingTeam1] = useState(false);
+  const [isEditingTeam2, setIsEditingTeam2] = useState(false);
 
   const onTeam1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTeamNames({ ...teamNames, 1: e.target.value || "Team 1" });
@@ -25,76 +27,92 @@ export const Header = ({
     setTeamNames({ ...teamNames, 2: e.target.value || "Team 2" });
   };
 
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e.key === "Enter") {
+      setIsEditingTeam1(false);
+      setIsEditingTeam2(false);
+    }
+  };
+
   return (
     <div>
       <StickyHeader>
         <Flex>
-          <>
-            <>Wavelength: a game of provoking thoughts</>
-          </>
+          <>Wavelength: a game of provoking thoughts</>
         </Flex>
 
         <TeamScoreContainer side={currentTeam === 1 ? "left" : "right"}>
           <Team currentTeam={currentTeam === 1}>
             <div>
-              {!showTeamName && (
+              {isEditingTeam1 && (
                 <div>
                   <TeamInput
+                    autoFocus
+                    onKeyDown={(e) => handleKeyDown(e)}
+                    onBlur={() => setIsEditingTeam1(false)}
                     onChange={onTeam1Change}
                     defaultValue={teamNames[1]}
                     placeholder="Team 1"
                   ></TeamInput>
-                  <StyledButton
-                    onClick={() => {
-                      setShowTeamName(true);
-                    }}
-                  >
-                    <img alt="Submit" src={Check} width="25" height="25" />
-                  </StyledButton>
                 </div>
               )}
-              {showTeamName && (
-                <TeamLabel
-                  onClick={() => {
-                    setShowTeamName(false);
-                  }}
-                >
-                  {teamNames[1]}
-                </TeamLabel>
+              {isEditingTeam1 === false && (
+                <FlexCenterContainer>
+                  <TeamLabel>{teamNames[1]}</TeamLabel>
+                  <EditButton
+                    width="16px"
+                    height="16px"
+                    onClick={() => {
+                      setIsEditingTeam1(true);
+                    }}
+                    src={Edit}
+                    alt="Edit Team 1"
+                  />
+                </FlexCenterContainer>
               )}
             </div>
-            <div>{score.team1}</div>
+            <FlexCenterContainer>
+              <Score>{score.team1}</Score>
+            </FlexCenterContainer>
           </Team>
           <Team currentTeam={currentTeam === 2}>
-            {/* <TeamLabel>Team 2</TeamLabel> */}
             <div>
-              {!showTeamName && (
+              {isEditingTeam2 && (
                 <div>
                   <TeamInput
+                    autoFocus
+                    onKeyDown={(e) => handleKeyDown(e)}
                     onChange={onTeam2Change}
+                    onBlur={() => setIsEditingTeam2(false)}
                     defaultValue={teamNames[2]}
                     placeholder="Team 2"
                   ></TeamInput>
-                  <StyledButton
-                    onClick={() => {
-                      setShowTeamName(true);
-                    }}
-                  >
-                    <img alt="Submit" src={Check} width="25" height="25" />
-                  </StyledButton>
                 </div>
               )}
-              {showTeamName && (
-                <TeamLabel
-                  onClick={() => {
-                    setShowTeamName(false);
-                  }}
-                >
-                  {teamNames[2]}
-                </TeamLabel>
+              {isEditingTeam2 === false && (
+                <FlexCenterContainer>
+                  <TeamLabel
+                    onClick={() => {
+                      setIsEditingTeam2(true);
+                    }}
+                  >
+                    {teamNames[2]}
+                  </TeamLabel>
+                  <EditButton
+                    width="16px"
+                    height="16px"
+                    onClick={() => setIsEditingTeam2(true)}
+                    src={Edit}
+                    alt="Edit Team 2"
+                  />
+                </FlexCenterContainer>
               )}
             </div>
-            <div>{score.team2}</div>
+            <FlexCenterContainer>
+              <Score>{score.team1}</Score>
+            </FlexCenterContainer>
           </Team>
         </TeamScoreContainer>
         <RedPointerImage
@@ -144,6 +162,12 @@ const TeamScoreContainer = styled.div<{
   font-size: 20px;
 `;
 
+const FlexCenterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Team = styled.div<{
   currentTeam?: boolean;
 }>`
@@ -155,30 +179,25 @@ const Team = styled.div<{
 
 const TeamLabel = styled.div``;
 
-const TeamInput = styled.input`
+const EditButton = styled.img`
+  cursor: pointer;
+  margin-left: 8px;
+`;
+
+const TeamInput = styled(Input)`
   padding: 8px;
   font-size: 12px;
   text-align: center;
+  height: 24px;
 `;
 
-const StyledButton = styled.button`
-  margin: 12px;
-  cursor: pointer;
-  height: 47.5px;
-  background-color: #abe1bf;
-  border: 0;
-  border-radius: 0.5rem;
-  color: #111827;
-  font-size: 3rem;
-  font-weight: 600;
-  line-height: 1.25rem;
-  text-align: center;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  &:hover {
-    background-color: #fafafa;
-  }
-  &:disabled {
-    background-color: #cbcbcb;
-    cursor: not-allowed;
-  }
+const Score = styled.div`
+  font-size: 20px;
+  color: red;
+  background-color: white;
+  width: 100%;
+  border-radius: 20px;
+  width: 24px;
+  margin-top: 10px;
+  padding: 4px;
 `;

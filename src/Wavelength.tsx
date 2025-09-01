@@ -42,7 +42,11 @@ export const Wavelength = () => {
   useEffect(() => {
     const element = document.getElementById(`step${currentSection}`);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      if (currentSection === 1) {
+        window.scrollTo();
+      } else {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
   }, [currentSection]);
 
@@ -282,16 +286,7 @@ export const Wavelength = () => {
       </Section>
       {showPoints && (
         <Section selected={currentSection === 6} id="step6">
-          <Step>
-            {message}
-            <Step>
-              {" "}
-              {currentTeamName}: {score.team1}
-            </Step>
-            <Step>
-              {currentOponentName}: {score.team2}
-            </Step>
-          </Step>
+          <Step>{message}</Step>
           <StyledButton onClick={startNextRound}>Next Round</StyledButton>
         </Section>
       )}

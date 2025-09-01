@@ -105,7 +105,7 @@ const SliderContainer = styled.div`
 `;
 
 const SliderDiv = styled.div`
-  width: 100%;
+  width: 97%;
   display: flex;
   justify-content: center;
   position: relative;

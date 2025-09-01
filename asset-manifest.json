@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.56e16583.css",
-    "main.js": "/static/js/main.e29dba4d.js",
-    "static/js/453.0184edda.chunk.js": "/static/js/453.0184edda.chunk.js",
-    "static/media/redpointer.png": "/static/media/redpointer.0b31307c5c43799691d3.png",
-    "static/media/show.png": "/static/media/show.c19b9e3590579a3ec888.png",
-    "static/media/hide.png": "/static/media/hide.54b3107d160578572bcc.png",
-    "static/media/shuffle.png": "/static/media/shuffle.31b9cb3e2195c95cf2f5.png",
-    "index.html": "/index.html",
-    "main.56e16583.css.map": "/static/css/main.56e16583.css.map",
-    "main.e29dba4d.js.map": "/static/js/main.e29dba4d.js.map",
-    "453.0184edda.chunk.js.map": "/static/js/453.0184edda.chunk.js.map"
+    "main.css": "/wavelength-game/static/css/main.56e16583.css",
+    "main.js": "/wavelength-game/static/js/main.18a8c651.js",
+    "static/js/453.0184edda.chunk.js": "/wavelength-game/static/js/453.0184edda.chunk.js",
+    "static/media/redpointer.png": "/wavelength-game/static/media/redpointer.0b31307c5c43799691d3.png",
+    "static/media/show.png": "/wavelength-game/static/media/show.c19b9e3590579a3ec888.png",
+    "static/media/hide.png": "/wavelength-game/static/media/hide.54b3107d160578572bcc.png",
+    "static/media/shuffle.png": "/wavelength-game/static/media/shuffle.31b9cb3e2195c95cf2f5.png",
+    "index.html": "/wavelength-game/index.html",
+    "main.56e16583.css.map": "/wavelength-game/static/css/main.56e16583.css.map",
+    "main.18a8c651.js.map": "/wavelength-game/static/js/main.18a8c651.js.map",
+    "453.0184edda.chunk.js.map": "/wavelength-game/static/js/453.0184edda.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.56e16583.css",
-    "static/js/main.e29dba4d.js"
+    "static/js/main.18a8c651.js"
   ]
 }

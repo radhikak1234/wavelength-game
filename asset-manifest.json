@@ -1,19 +1,19 @@
 {
-  "main.css": "/wavelength-game/static/css/main.525fdcf6.chunk.css",
-  "main.js": "/wavelength-game/static/js/main.e43bd2c9.chunk.js",
-  "main.js.map": "/wavelength-game/static/js/main.e43bd2c9.chunk.js.map",
-  "runtime~main.js": "/wavelength-game/static/js/runtime~main.a24dc772.js",
-  "runtime~main.js.map": "/wavelength-game/static/js/runtime~main.a24dc772.js.map",
-  "static/js/2.8dae6e72.chunk.js": "/wavelength-game/static/js/2.8dae6e72.chunk.js",
-  "static/js/2.8dae6e72.chunk.js.map": "/wavelength-game/static/js/2.8dae6e72.chunk.js.map",
-  "static/js/3.5aaf3fca.chunk.js": "/wavelength-game/static/js/3.5aaf3fca.chunk.js",
-  "static/js/3.5aaf3fca.chunk.js.map": "/wavelength-game/static/js/3.5aaf3fca.chunk.js.map",
-  "index.html": "/wavelength-game/index.html",
-  "precache-manifest.9b4c1fcc2ff8f99d1bceec8e5fb4625c.js": "/wavelength-game/precache-manifest.9b4c1fcc2ff8f99d1bceec8e5fb4625c.js",
-  "service-worker.js": "/wavelength-game/service-worker.js",
-  "static/css/main.525fdcf6.chunk.css.map": "/wavelength-game/static/css/main.525fdcf6.chunk.css.map",
-  "static/media/hide.png": "/wavelength-game/static/media/hide.e68fd803.png",
-  "static/media/redpointer.png": "/wavelength-game/static/media/redpointer.5cab8ac6.png",
-  "static/media/show.png": "/wavelength-game/static/media/show.d58934fe.png",
-  "static/media/shuffle.png": "/wavelength-game/static/media/shuffle.83558054.png"
+  "files": {
+    "main.css": "/static/css/main.56e16583.css",
+    "main.js": "/static/js/main.e29dba4d.js",
+    "static/js/453.0184edda.chunk.js": "/static/js/453.0184edda.chunk.js",
+    "static/media/redpointer.png": "/static/media/redpointer.0b31307c5c43799691d3.png",
+    "static/media/show.png": "/static/media/show.c19b9e3590579a3ec888.png",
+    "static/media/hide.png": "/static/media/hide.54b3107d160578572bcc.png",
+    "static/media/shuffle.png": "/static/media/shuffle.31b9cb3e2195c95cf2f5.png",
+    "index.html": "/index.html",
+    "main.56e16583.css.map": "/static/css/main.56e16583.css.map",
+    "main.e29dba4d.js.map": "/static/js/main.e29dba4d.js.map",
+    "453.0184edda.chunk.js.map": "/static/js/453.0184edda.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.56e16583.css",
+    "static/js/main.e29dba4d.js"
+  ]
 }

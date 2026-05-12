@@ -238,7 +238,7 @@ const FixedHeader = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 2;
+  z-index: 20;
   overflow: visible;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 `;

@@ -3,13 +3,13 @@ import "./App.css";
 import { WavelengthBar } from "./components/WavelengthBar/WavelengthBar";
 import { SpectrumCard } from "./components/SpectrumCard/SpectrumCard";
 import { Target } from "./components/Target/Target";
-import { shuffledCards } from "./components/SpectrumCard/spectrumCards";
 import ShuffleIcon from "./assets/shuffle.png";
 import Show from "./assets/show.png";
 import Hide from "./assets/hide.png";
 import Check from "./assets/check.png";
 import styled, { keyframes } from "styled-components";
 import { Header } from "./components/Header/Header";
+import { CardsSource, useSpectrumCards } from "./hooks/useSpectrumCards";
 
 type RoundSummary = {
   team1Delta: number;
@@ -40,7 +40,8 @@ export const Wavelength = () => {
   const [teamNames, setTeamNames] = useState({ 1: "Team 1", 2: "Team 2" });
   const [score, setScore] = useState({ team1: 0, team2: 0 });
   const [currentTeam, setCurrentTeam] = useState<1 | 2>(1);
-
+  const [cardDrawVersion, setCardDrawVersion] = useState(0);
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false);
   const [currentSection, setSection] = useState(1);
   const [showTarget, setShowTarget] = useState(true);
   const [showPoints, setShowPoints] = useState(false);
@@ -51,11 +52,19 @@ export const Wavelength = () => {
   const [message, setMessage] = useState("");
   const [roundSummary, setRoundSummary] = useState<RoundSummary | null>(null);
   const [winningTeam, setWinningTeam] = useState<1 | 2 | null>(null);
-  const [currentCard, setCurrentCard] = useState<{
-    right: string;
-    left: string;
-  }>(shuffledCards());
   const section4 = useRef(null);
+  const {
+    cardForm,
+    cards,
+    cardsSource,
+    cardsStatus,
+    cardSubmitState,
+    currentCard,
+    drawCard: drawSpectrumCard,
+    hasSupabaseConfig,
+    onCardFormChange,
+    submitCard,
+  } = useSpectrumCards();
 
   const transitionSection = (start: number, end: number) => {
     start && setTimeout(() => setSection(start), 0);
@@ -76,6 +85,12 @@ export const Wavelength = () => {
     }
   }, [currentSection]);
 
+  useEffect(() => {
+    if (cardSubmitState.type === "success") {
+      setIsLibraryOpen(false);
+    }
+  }, [cardSubmitState.type]);
+
   const shufflePosition = () => {
     setShowTarget(true);
     setShowShuffleButton(false);
@@ -87,7 +102,8 @@ export const Wavelength = () => {
   };
 
   const drawCard = () => {
-    setCurrentCard(shuffledCards());
+    drawSpectrumCard();
+    setCardDrawVersion((prev) => prev + 1);
     resetBoard();
   };
 
@@ -224,9 +240,56 @@ export const Wavelength = () => {
           </StyledButton>
         </Flex>
         <SpectrumCard
+          drawVersion={cardDrawVersion}
           spectrumLeft={currentCard.left}
           spectrumRight={currentCard.right}
         ></SpectrumCard>
+        {!isLibraryOpen && (
+          <LibraryToggleButton
+            type="button"
+            onClick={() => setIsLibraryOpen(true)}
+          >
+            Add your own spectrum card
+          </LibraryToggleButton>
+        )}
+        {isLibraryOpen && (
+          <AdminPanel>
+            <AdminCloseButton
+              type="button"
+              aria-label="Close spectrum card library"
+              onClick={() => setIsLibraryOpen(false)}
+            >
+              ×
+            </AdminCloseButton>
+            <AdminTitle>Spectrum Card Library</AdminTitle>
+            <AdminStatus>Total cards available: {cards.length}.</AdminStatus>
+            <AdminForm onSubmit={submitCard}>
+              <AdminInput
+                placeholder="Left side, e.g. Underrated"
+                value={cardForm.left}
+                onChange={(event) => onCardFormChange(event, "left")}
+              />
+              <AdminInput
+                placeholder="Right side, e.g. Overrated"
+                value={cardForm.right}
+                onChange={(event) => onCardFormChange(event, "right")}
+              />
+              <AdminSubmitButton type="submit" disabled={!hasSupabaseConfig}>
+                Add Card
+              </AdminSubmitButton>
+            </AdminForm>
+            <AdminHelper>
+              {hasSupabaseConfig
+                ? `New cards are saved and previewed immediately.`
+                : `Saving is not configured yet, so the game is using starter cards.`}
+            </AdminHelper>
+            {cardSubmitState.message && (
+              <AdminFeedback $tone={cardSubmitState.type}>
+                {cardSubmitState.message}
+              </AdminFeedback>
+            )}
+          </AdminPanel>
+        )}
       </Section>
       <Section
         hide={currentSection >= 4}
@@ -468,6 +531,120 @@ const RoundDelta = styled.div`
   font-size: 2rem;
   font-weight: 800;
   line-height: 1;
+`;
+
+const AdminPanel = styled.section`
+  position: relative;
+  width: min(760px, calc(100vw - 32px));
+  margin: 8px auto 12px;
+  padding: 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+`;
+
+const LibraryToggleButton = styled.button`
+  margin-top: 4px;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+`;
+
+const AdminCloseButton = styled.button`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+`;
+
+const AdminTitle = styled.div`
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+`;
+
+const AdminStatus = styled.div`
+  margin-top: 8px;
+  font-size: 0.85rem;
+  opacity: 0.82;
+`;
+
+const AdminForm = styled.form`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 12px;
+  margin-top: 16px;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const AdminInput = styled.input`
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #203128;
+  font-size: 0.95rem;
+  box-shadow: inset 0 0 0 1px rgba(80, 102, 88, 0.14);
+`;
+
+const AdminSubmitButton = styled.button`
+  border: 0;
+  border-radius: 16px;
+  padding: 0 14px;
+  background: linear-gradient(180deg, #c9efce 0%, #98d5a7 100%);
+  color: #1d3528;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+  min-height: 44px;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+`;
+
+const AdminHelper = styled.div`
+  margin-top: 12px;
+  font-size: 0.8rem;
+  opacity: 0.72;
+`;
+
+const AdminFeedback = styled.div<{ $tone: "idle" | "success" | "error" }>`
+  margin-top: 10px;
+  color: ${({ $tone }) =>
+    $tone === "success" ? "#b9ffcf" : $tone === "error" ? "#ffd2d2" : "white"};
+  font-size: 0.86rem;
+  font-weight: 700;
 `;
 
 const Flex = styled.div`

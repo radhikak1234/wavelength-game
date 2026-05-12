@@ -1,4 +1,9 @@
-export const spectrumCards = [
+export type SpectrumCardItem = {
+  right: string;
+  left: string;
+};
+
+export const spectrumCards: SpectrumCardItem[] = [
   {
     right: "Good",
     left: "Bad",
@@ -961,24 +966,14 @@ export const spectrumCards = [
   },
 ];
 
-export const shuffle = (
-  array: {
-    right: string;
-    left: string;
-  }[]
-) => {
+export const shuffle = (array: SpectrumCardItem[]) => {
   var i = array.length;
   while (i--) {
     return array.splice(Math.floor(Math.random() * (i + 1)), 1)[0];
   }
 };
 
-export function shuffleCards(
-  array: {
-    right: string;
-    left: string;
-  }[]
-) {
+export function shuffleCards(array: SpectrumCardItem[]) {
   var copy = array.slice(0);
   return function () {
     if (copy.length < 1) {
@@ -990,5 +985,3 @@ export function shuffleCards(
     return item;
   };
 }
-
-export const shuffledCards = shuffleCards(spectrumCards);

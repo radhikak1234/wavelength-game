@@ -1,16 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap");
+
+:root {
+  --font-body: "Manrope", "Inter", "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Manrope", "Inter", sans-serif;
+}
+
+html {
+  font-family: var(--font-body);
+}
+
 body {
   background-color: #282c34;
   margin: 0;
-  font-family: 'Serif',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
+button,
+input,
+textarea {
+  font: inherit;
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 }
